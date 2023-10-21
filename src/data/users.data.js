@@ -11,6 +11,7 @@ const defaultAdmin = async () => {
 
   if (!admin) {
     await createDefaultAdmin();
+    return;
   }
 
   if (!admin.isAdmin) {

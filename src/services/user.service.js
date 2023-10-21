@@ -2,15 +2,6 @@ import { User } from '../models/index.js';
 
 /**
  *
- * @param {User} body
- * @returns
- */
-export const createUser = async (body) => {
-  return await User.create(body);
-};
-
-/**
- *
  * @param {string} email
  * @returns
  */
@@ -27,6 +18,23 @@ export const findUserByEmail = async (email) => {
  */
 export const updateUser = async (id, body) => {
   return await User.updateOne({ _id: id }, body);
+};
+
+/**
+ *
+ * @param {User} body
+ * @returns
+ */
+export const createUser = async (body) => {
+  return await User.create(body);
+};
+
+export const createUsers = async (body) => {
+  return await User.insertMany(body);
+};
+
+export const removeAllUsers = async () => {
+  await User.deleteMany({});
 };
 
 /**
