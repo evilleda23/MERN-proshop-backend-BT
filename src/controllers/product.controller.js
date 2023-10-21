@@ -1,4 +1,4 @@
-import products from '../../data/products.js';
+import products from '../mock/products.mock.js';
 
 export function getProducts(req, res) {
   res.json(products);
