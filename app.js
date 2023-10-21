@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import colors from 'colors';
+
 import express from 'express';
 
 //middlewares

@@ -7,16 +7,17 @@ import {
 } from '../services/user.service.js';
 
 const defaultAdmin = async () => {
-  const admin = await findUserByEmail(process.env.FIRST_USER_EMAIL);
+  let admin = await findUserByEmail(process.env.FIRST_USER_EMAIL);
 
   if (!admin) {
-    await createDefaultAdmin();
-    return;
+    admin = await createDefaultAdmin();
+    return admin;
   }
 
   if (!admin.isAdmin) {
     await updateUser(admin._id, { isAdmin: true });
   }
+  return admin;
 };
 
 const createDefaultAdmin = async () => {
@@ -26,7 +27,7 @@ const createDefaultAdmin = async () => {
     password: bcrypt.hashSync(process.env.FIRST_USER_PASSWORD, 10),
     isAdmin: true,
   };
-  await createUser(user);
+  return await createUser(user);
 };
 
 export { defaultAdmin };
