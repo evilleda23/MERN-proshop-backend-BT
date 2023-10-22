@@ -15,6 +15,11 @@ export async function getProducts(req, res) {
 
 export async function getProduct(req, res) {
   const product = await findProductById(req.params.id);
+
+  if (!product) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'Product not found', null);
+  }
+
   return HTTP_RESPONSE(
     res,
     StatusCodes.OK,

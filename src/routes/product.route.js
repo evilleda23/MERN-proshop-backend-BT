@@ -1,7 +1,8 @@
 import Router from 'express';
-import { getProduct, getProducts } from '../controllers/product.controller.js';
 
-import asyncHandler from '../middleware/asyncHandler.js';
+import asyncHandler from '../middleware/async-handler.js';
+
+import { getProduct, getProducts } from '../controllers/product.controller.js';
 
 const router = Router();
 

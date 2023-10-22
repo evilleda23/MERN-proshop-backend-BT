@@ -1,4 +1,7 @@
 import { Router } from 'express';
+
+import asyncHandler from '../middleware/async-handler.js';
+
 import {
   deleteAllDataController,
   postInsertSeedDataController,
@@ -6,8 +9,8 @@ import {
 
 const router = Router();
 
-router.post('/seed/insertData', postInsertSeedDataController);
+router.post('/seed/insertData', asyncHandler(postInsertSeedDataController));
 
-router.delete('/seed/deleteData', deleteAllDataController);
+router.delete('/seed/deleteData', asyncHandler(deleteAllDataController));
 
 export default router;

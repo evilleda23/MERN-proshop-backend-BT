@@ -1,13 +1,18 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import colors from 'colors';
+import colors from 'colors'; //* Do not remove this line
 
 import express from 'express';
 
 //middlewares
 import cors from 'cors';
 import morgan from 'morgan';
+
+import {
+  errorHandler,
+  notFoundHandler,
+} from './src/middleware/error-handler.js';
 
 //routes
 import indexRoute from './src/routes/index.js';
@@ -25,5 +30,9 @@ app.use('/api', indexRoute);
 app.use('/api', productRoute);
 app.use('/api', productRoute);
 app.use('/api', seedRoute);
+
+//error handlers (middlewares)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;
