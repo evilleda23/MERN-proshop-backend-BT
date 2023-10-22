@@ -27,9 +27,8 @@ app.use(morgan('dev'));
 
 //routes
 app.use('/api', indexRoute);
-app.use('/api', productRoute);
-app.use('/api', productRoute);
-app.use('/api', seedRoute);
+app.use('/api/products', productRoute);
+app.use('/api/seed', seedRoute);
 
 //error handlers (middlewares)
 app.use(notFoundHandler);

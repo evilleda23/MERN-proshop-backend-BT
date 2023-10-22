@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.get('/products', asyncHandler(getProductsController));
-router.get('/product/:id', asyncHandler(getProductController));
+router.get('/', asyncHandler(getProductsController));
+router.get('/:id', asyncHandler(getProductController));
 
 export default router;

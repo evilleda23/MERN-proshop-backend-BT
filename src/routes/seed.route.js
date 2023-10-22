@@ -9,8 +9,8 @@ import {
 
 const router = Router();
 
-router.post('/seed/insertData', asyncHandler(postInsertSeedDataController));
+router.post('/', asyncHandler(postInsertSeedDataController));
 
-router.delete('/seed/deleteData', asyncHandler(deleteAllDataController));
+router.delete('/', asyncHandler(deleteAllDataController));
 
 export default router;
