@@ -12,6 +12,9 @@ import defaultData from '../data/default.data.js';
 import users from '../mock/users.mock.js';
 import products from '../mock/products.mock.js';
 
+// @desc    Insert seed data
+// @route   POST /api/seed
+// @access  Public
 export const postInsertSeedDataController = async (req, res) => {
   try {
     await deleteAllData();
@@ -37,6 +40,9 @@ export const postInsertSeedDataController = async (req, res) => {
   }
 };
 
+// @desc    Delete all data
+// @route   DELETE /api/seed
+// @access  Public
 export const deleteAllDataController = async (req, res) => {
   try {
     await deleteAllData();

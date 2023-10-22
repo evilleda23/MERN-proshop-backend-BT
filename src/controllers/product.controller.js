@@ -3,6 +3,9 @@ import { HTTP_RESPONSE } from '../utils/http-response.utils.js';
 
 import { findProductById, findProducts } from '../services/product.service.js';
 
+//@desc    Get all products
+//@route   GET /api/products
+//@access  Public
 export async function getProducts(req, res) {
   const products = await findProducts();
   return HTTP_RESPONSE(
@@ -13,6 +16,9 @@ export async function getProducts(req, res) {
   );
 }
 
+//@desc    Get a product by id
+//@route   GET /api/products/:id
+//@access  Public
 export async function getProduct(req, res) {
   const product = await findProductById(req.params.id);
 
