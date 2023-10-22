@@ -13,12 +13,22 @@ const productSchema = new mongoose.Schema(
       trim: true,
       maxLength: 1000,
     },
+    rating: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     price: {
       type: Number,
       required: true,
       default: 0,
     },
     brand: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    category: {
       type: String,
       required: true,
       trim: true,
@@ -32,8 +42,9 @@ const productSchema = new mongoose.Schema(
       type: Number,
     },
     image: {
-      data: Buffer,
-      contentType: String,
+      type: String,
+      required: true,
+      trim: true,
     },
     shipping: {
       required: false,
