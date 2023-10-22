@@ -1,11 +1,24 @@
-import products from '../mock/products.mock.js';
+import { StatusCodes } from 'http-status-codes';
+import { HTTP_RESPONSE } from '../utils/http-response.utils.js';
 
-export function getProducts(req, res) {
-  res.json(products);
+import { findProductById, findProducts } from '../services/product.service.js';
+
+export async function getProducts(req, res) {
+  const products = await findProducts();
+  return HTTP_RESPONSE(
+    res,
+    StatusCodes.OK,
+    'All products fetched successfully',
+    products
+  );
 }
 
-export function getProduct(req, res) {
-  const { id } = req.params;
-  const product = products.find(({ _id }) => _id === id);
-  res.json(product);
+export async function getProduct(req, res) {
+  const product = await findProductById(req.params.id);
+  return HTTP_RESPONSE(
+    res,
+    StatusCodes.OK,
+    'Product fetched successfully',
+    product
+  );
 }
