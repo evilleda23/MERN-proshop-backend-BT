@@ -6,6 +6,16 @@ import { User } from '../models/index.js';
  * @returns
  */
 
+export const findUserById = async (id) => {
+  return await User.findById(id).select('-password');
+};
+
+/**
+ *
+ * @param {string} email
+ * @returns
+ */
+
 export const findUserByEmail = async (email) => {
   return await User.findOne({ email });
 };

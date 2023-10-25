@@ -92,7 +92,8 @@ export async function putUserProfileController(req, res) {
 //@route   POST /api/users/logout
 //@access  Private
 export async function postLogoutUserController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'Logout User', null);
+  res.cookie('jwt', '', { httpOnly: true, expires: new Date(0) });
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Logged out succesfully', null);
 }
 
 //@desc    Delete user

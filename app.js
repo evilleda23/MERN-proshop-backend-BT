@@ -8,6 +8,7 @@ import express from 'express';
 //middlewares
 import cors from 'cors';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 import {
   errorHandler,
@@ -27,6 +28,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //routes
 app.use('/api', indexRoute);

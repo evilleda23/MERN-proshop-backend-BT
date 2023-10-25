@@ -2,6 +2,8 @@ import Router from 'express';
 
 import asyncHandler from '../middleware/async-handler.js';
 
+import { protect, admin } from '../middleware/auth.js';
+
 import {
   deleteUserController,
   getUserByIdController,
@@ -17,18 +19,18 @@ import {
 const router = Router();
 
 /* PUBLIC */
-router.post('/login', asyncHandler(postAuthUserController));
+router.post('/auth', asyncHandler(postAuthUserController));
 router.post('/register', asyncHandler(postRegisterUserController));
 
 /* PRIVATE */
-router.get('/', asyncHandler(getUsersController));
-router.get('/profile', asyncHandler(getUserProfileController));
-router.get('/:id', asyncHandler(getUserByIdController));
+router.get('/', [protect, admin], asyncHandler(getUsersController));
+router.get('/profile', protect, asyncHandler(getUserProfileController));
+router.get('/:id', [protect, admin], asyncHandler(getUserByIdController));
 
-router.put('/profile', asyncHandler(putUserProfileController));
-router.put('/logout', asyncHandler(postLogoutUserController));
-router.put('/:id', asyncHandler(putUserByIdController));
+router.put('/profile', protect, asyncHandler(putUserProfileController));
+router.put('/logout', [protect, admin], asyncHandler(postLogoutUserController));
+router.put('/:id', [protect, admin], asyncHandler(putUserByIdController));
 
-router.delete('/:id', asyncHandler(deleteUserController));
+router.delete('/:id', [protect, admin], asyncHandler(deleteUserController));
 
 export default router;
