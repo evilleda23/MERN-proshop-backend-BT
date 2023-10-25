@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { HTTP_RESPONSE } from '../utils/http-response.utils.js';
+import { HTTP_RESPONSE } from '../utils/http-response.util.js';
 
 const notFoundHandler = (req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
