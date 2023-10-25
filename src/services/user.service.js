@@ -26,7 +26,7 @@ export const findUserByEmail = async (email) => {
  * @param {User} body
  * @returns User
  */
-export const updateUser = async (id, body) => {
+export const updateUserById = async (id, body) => {
   return await User.updateOne({ _id: id }, body);
 };
 
@@ -41,6 +41,11 @@ export const createUser = async (body) => {
 
 export const createUsers = async (body) => {
   return await User.insertMany(body);
+};
+
+export const updateUser = async (user, body) => {
+  Object.assign(user, body);
+  return await user.save();
 };
 
 export const removeAllUsers = async () => {

@@ -1,7 +1,7 @@
 import {
   createUser,
   findUserByEmail,
-  updateUser,
+  updateUserById,
 } from '../services/user.service.js';
 
 const defaultAdmin = async () => {
@@ -13,7 +13,7 @@ const defaultAdmin = async () => {
   }
 
   if (!admin.isAdmin) {
-    await updateUser(admin._id, { isAdmin: true });
+    await updateUserById(admin._id, { isAdmin: true });
   }
   return admin;
 };

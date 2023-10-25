@@ -1,7 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 import { HTTP_RESPONSE } from '../utils/http-response.util.js';
 
-import { createUser, findUserByEmail } from '../services/user.service.js';
+import {
+  createUser,
+  findUserByEmail,
+  findUserById,
+  updateUser,
+} from '../services/user.service.js';
 import { generateToken } from '../utils/jwt.util.js';
 
 /* PUBLIC */
@@ -81,7 +86,11 @@ export async function getUsersController(req, res) {
 //@route   GET /api/users/profile
 //@access  Private
 export async function getUserProfileController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'Get User Profile', null);
+  const user = await findUserById(req.user._id);
+  if (!user) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'User not found', null);
+  }
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Get User Profile', user);
 }
 
 //@desc    Update user
@@ -95,7 +104,22 @@ export async function putUserByIdController(req, res) {
 //@route   PUT /api/users/profile
 //@access  Private
 export async function putUserProfileController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'Update User Profile', null);
+  const user = await findUserById(req.user._id);
+  if (!user) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'User not found', null);
+  }
+
+  const { name, email, password } = req.body;
+
+  const body = {
+    name: name || user.name,
+    email: email || user.email,
+  };
+
+  if (password) body.password = password;
+
+  const updatedUser = await updateUser(user, body);
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Update User Profile', updatedUser);
 }
 
 //@desc    Logout user /clear cookie
