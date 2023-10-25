@@ -1,5 +1,3 @@
-import bcrypt from 'bcryptjs';
-
 import {
   createUser,
   findUserByEmail,
@@ -24,7 +22,7 @@ const createDefaultAdmin = async () => {
   const user = {
     name: process.env.FIRST_USER_NAME,
     email: process.env.FIRST_USER_EMAIL,
-    password: bcrypt.hashSync(process.env.FIRST_USER_PASSWORD, 10),
+    password: process.env.FIRST_USER_PASSWORD,
     isAdmin: true,
   };
   return await createUser(user);

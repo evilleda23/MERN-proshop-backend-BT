@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { HTTP_RESPONSE } from '../utils/http-response.util.js';
 
-import { findUserByEmail } from '../services/user.service.js';
+import { createUser, findUserByEmail } from '../services/user.service.js';
 import { generateToken } from '../utils/jwt.util.js';
 
 /* PUBLIC */
@@ -48,7 +48,25 @@ export async function postAuthUserController(req, res) {
 //@route   POST /api/users/register
 //@access  Public
 export async function postRegisterUserController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'Register User', null);
+  const { name, email, password } = req.body;
+  const userExists = await findUserByEmail(email);
+  if (userExists)
+    return HTTP_RESPONSE(
+      res,
+      StatusCodes.BAD_REQUEST,
+      'User already exists',
+      null
+    );
+  const user = await createUser({ name, email, password });
+
+  if (!user)
+    return HTTP_RESPONSE(
+      res,
+      StatusCodes.BAD_REQUEST,
+      'Invalid user data',
+      null
+    );
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Register User', user);
 }
 
 /* PRIVATE */
