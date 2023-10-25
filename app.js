@@ -18,6 +18,7 @@ import {
 import indexRoute from './src/routes/index.js';
 import productRoute from './src/routes/product.route.js';
 import seedRoute from './src/routes/seed.route.js';
+import userRoute from './src/routes/user.route.js';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(morgan('dev'));
 app.use('/api', indexRoute);
 app.use('/api/products', productRoute);
 app.use('/api/seed', seedRoute);
+app.use('/api/users', userRoute);
 
 //error handlers (middlewares)
 app.use(notFoundHandler);
