@@ -15,16 +15,7 @@ export async function postAuthUserController(req, res) {
   const userDB = await findUserByEmail(email);
 
   if (userDB && (await userDB.matchPassword(password))) {
-    const token = generateToken({ userId: userDB._id });
-    const maxAge =
-      eval(process.env.COOKIE_MAX_AGE) || Number(process.env.COOKIE_MAX_AGE);
-    //Set cookie
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: 'strict',
-      maxAge: maxAge || 1000 * 60 * 60 * 24 * 7, //7 days
-    });
+    generateToken(res, { userId: userDB._id });
 
     const user = {
       id: userDB._id,
@@ -66,6 +57,7 @@ export async function postRegisterUserController(req, res) {
       'Invalid user data',
       null
     );
+  generateToken(res, { userId: user._id });
   return HTTP_RESPONSE(res, StatusCodes.OK, 'Register User', user);
 }
 
