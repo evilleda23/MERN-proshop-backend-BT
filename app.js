@@ -6,7 +6,6 @@ import colors from 'colors'; //* Do not remove this line
 import express from 'express';
 
 //middlewares
-import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
@@ -24,7 +23,6 @@ import userRoute from './src/routes/user.route.js';
 const app = express();
 
 //settings
-app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
