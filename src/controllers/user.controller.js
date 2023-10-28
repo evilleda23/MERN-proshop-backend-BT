@@ -29,7 +29,7 @@ export async function postAuthUserController(req, res) {
       isAdmin: userDB.isAdmin,
     };
 
-    return HTTP_RESPONSE(res, StatusCodes.OK, 'Auth User', user);
+    return HTTP_RESPONSE(res, StatusCodes.OK, 'Login Succesfully', user);
   }
 
   return HTTP_RESPONSE(
