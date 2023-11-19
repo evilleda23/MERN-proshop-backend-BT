@@ -73,12 +73,16 @@ export async function putOrderToPaidController(req, res) {
 //@route   PUT /api/orders/:id/deliver
 //@access  Private/Admin
 export async function putOrderToDeliveredController(req, res) {
-  return HTTP_RESPONSE(
-    res,
-    StatusCodes.OK,
-    'Update order to delivered'
-    // products
-  );
+  const { id: orderId } = req.params;
+  const order = await findOrderById(orderId);
+  if (!order)
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'Order not found');
+
+  await updateOrderById(orderId, {
+    isDelivered: true,
+    deliveredAt: Date.now(),
+  });
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Update order to delivered', order);
 }
 
 //@desc    Create new order
