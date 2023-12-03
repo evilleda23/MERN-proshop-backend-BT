@@ -3,6 +3,7 @@ import { HTTP_RESPONSE } from '../utils/http-response.util.js';
 
 import {
   createProduct,
+  deleteProduct,
   findProductById,
   findProducts,
   updateProduct,
@@ -107,5 +108,23 @@ export async function putProductController(req, res) {
     StatusCodes.OK,
     'Product updated successfully',
     updatedProduct
+  );
+}
+
+//@desc    Delete a product
+//@route   DELETE /api/products
+//@access  Private/Admin
+export async function deleteProductController(req, res) {
+  const productId = req.params.id;
+
+  const productDb = await findProductById(productId);
+  if (!productDb) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'Product not found', null);
+  }
+  await deleteProduct(productDb);
+  return HTTP_RESPONSE(
+    res,
+    StatusCodes.NO_CONTENT,
+    'Product deleted successfully'
   );
 }
