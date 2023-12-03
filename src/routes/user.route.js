@@ -28,7 +28,7 @@ router.get('/profile', protect, asyncHandler(getUserProfileController));
 router.get('/:id', [protect, admin], asyncHandler(getUserByIdController));
 
 router.put('/profile', protect, asyncHandler(putUserProfileController));
-router.put('/logout', protect, asyncHandler(postLogoutUserController));
+router.put('/logout', asyncHandler(postLogoutUserController));
 router.put('/:id', [protect, admin], asyncHandler(putUserByIdController));
 
 router.delete('/:id', [protect, admin], asyncHandler(deleteUserController));
