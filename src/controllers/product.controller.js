@@ -5,6 +5,7 @@ import {
   createProduct,
   findProductById,
   findProducts,
+  updateProduct,
 } from '../services/product.service.js';
 
 //@desc    Get all products
@@ -65,5 +66,46 @@ export async function postProductController(req, res) {
     StatusCodes.OK,
     'Product fetched successfully',
     newProduct
+  );
+}
+
+//@desc    Update a product
+//@route   PUT /api/products
+//@access  Private/Admin
+export async function putProductController(req, res) {
+  const productId = req.params.id;
+  const {
+    name,
+    price,
+    image,
+    brand,
+    category,
+    countInStock,
+    numReviews,
+    description,
+  } = req.body;
+
+  const productDb = await findProductById(productId);
+  if (!productDb) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'Product not found', null);
+  }
+  const newBody = {
+    name: name || productDb.name,
+    price: price || productDb.price,
+    image: image || productDb.image,
+    brand: brand || productDb.brand,
+    category: category || productDb.category,
+    countInStock: countInStock || productDb.countInStock,
+    numReviews: numReviews || productDb.numReviews,
+    description: description || productDb.description,
+  };
+
+  const updatedProduct = await updateProduct(productDb, newBody);
+
+  return HTTP_RESPONSE(
+    res,
+    StatusCodes.OK,
+    'Product updated successfully',
+    updatedProduct
   );
 }

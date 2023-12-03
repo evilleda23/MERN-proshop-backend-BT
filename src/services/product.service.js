@@ -17,6 +17,10 @@ export const createProducts = async (products, userId) => {
   );
 };
 
+export const updateProduct = async (product, body) => {
+  return await Product.updateOne(product, { ...body });
+};
+
 export const removeAllProducts = async () => {
   await Product.deleteMany({});
 };

@@ -8,12 +8,14 @@ import {
   getProductController,
   getProductsController,
   postProductController,
+  putProductController,
 } from '../controllers/product.controller.js';
 
 const router = Router();
 
 router.get('/', asyncHandler(getProductsController));
 router.post('/', [protect, admin], asyncHandler(postProductController));
+router.put('/:id', [protect, admin], asyncHandler(putProductController));
 router.get('/:id', asyncHandler(getProductController));
 
 export default router;
