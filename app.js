@@ -1,6 +1,6 @@
+import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
-
 import colors from 'colors'; //* Do not remove this line
 
 import express from 'express';
@@ -20,6 +20,7 @@ import productRoute from './src/routes/product.route.js';
 import seedRoute from './src/routes/seed.route.js';
 import userRoute from './src/routes/user.route.js';
 import orderRoute from './src/routes/order.route.js';
+import uploadRoute from './src/routes/upload.route.js';
 
 const app = express();
 
@@ -29,12 +30,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const __dirname = path.resolve();
+app.use(
+  '/public/uploads',
+  express.static(path.join(__dirname, '/public/uploads/'))
+);
 //routes
 app.use('/api', indexRoute);
 app.use('/api/products', productRoute);
 app.use('/api/seed', seedRoute);
 app.use('/api/users', userRoute);
 app.use('/api/orders', orderRoute);
+app.use('/api/uploads', uploadRoute);
 
 //paypal configuration
 app.get('/api/config/paypal', (req, res) => {
