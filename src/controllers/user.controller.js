@@ -108,11 +108,13 @@ export async function putUserByIdController(req, res) {
     return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'User not found', null);
   }
   const { name, email, isAdmin } = req.body;
+
   const newBody = {
-    name: name || user.name,
-    email: email || user.email,
-    isAdmin: isAdmin || user.isAdmin,
+    name: name ?? user.name,
+    email: email ?? user.email,
+    isAdmin: isAdmin ?? user.isAdmin,
   };
+
   await updateUserById(userId, newBody);
   return HTTP_RESPONSE(
     res,
