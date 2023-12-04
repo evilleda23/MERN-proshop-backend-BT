@@ -1,13 +1,16 @@
 import { StatusCodes } from 'http-status-codes';
 import { HTTP_RESPONSE } from '../utils/http-response.util.js';
 
+import { generateToken } from '../utils/jwt.util.js';
 import {
   createUser,
+  findAllUsers,
   findUserByEmail,
   findUserById,
+  removeUserById,
   updateUser,
+  updateUserById,
 } from '../services/user.service.js';
-import { generateToken } from '../utils/jwt.util.js';
 
 /* PUBLIC */
 
@@ -72,14 +75,16 @@ export async function postRegisterUserController(req, res) {
 //@route   GET /api/users/:id
 //@access  Private/Admin
 export async function getUserByIdController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'LOL User', null);
+  const user = await findUserById(req.params.id);
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Get Users', user);
 }
 
 //@desc    Get users
 //@route   GET /api/users
 //@access  Private/Admin
 export async function getUsersController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'Get Users', null);
+  const users = await findAllUsers();
+  return HTTP_RESPONSE(res, StatusCodes.OK, 'Get Users', users);
 }
 
 //@desc    Get user profile
@@ -97,7 +102,24 @@ export async function getUserProfileController(req, res) {
 //@route   PUT /api/users/:id
 //@access  Private/Admin
 export async function putUserByIdController(req, res) {
-  return HTTP_RESPONSE(res, StatusCodes.OK, 'Update User', null);
+  const userId = req.params.id;
+  const user = await findUserById(userId);
+  if (!user) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'User not found', null);
+  }
+  const { name, email, isAdmin } = req.body;
+  const newBody = {
+    name: name || user.name,
+    email: email || user.email,
+    isAdmin: isAdmin || user.isAdmin,
+  };
+  await updateUserById(userId, newBody);
+  return HTTP_RESPONSE(
+    res,
+    StatusCodes.NO_CONTENT,
+    'User updated succesfully',
+    null
+  );
 }
 
 //@desc    Update user profile
@@ -134,5 +156,19 @@ export async function postLogoutUserController(req, res) {
 //@route   DELETE /api/users/:id
 //@access  Private/Admin
 export async function deleteUserController(req, res) {
+  const userId = req.params.id;
+  const user = await findUserById(userId);
+  if (!user) {
+    return HTTP_RESPONSE(res, StatusCodes.NOT_FOUND, 'User not found', null);
+  }
+  if (user.isAdmin) {
+    return HTTP_RESPONSE(
+      res,
+      StatusCodes.BAD_REQUEST,
+      'Admin user cannot be deleted',
+      null
+    );
+  }
+  await removeUserById(userId);
   return HTTP_RESPONSE(res, StatusCodes.OK, 'delete User', null);
 }
