@@ -20,6 +20,10 @@ export const findUserByEmail = async (email) => {
   return await User.findOne({ email });
 };
 
+export const findAllUsers = async () => {
+  return await User.find({}).select('-password');
+};
+
 /**
  *
  * @param {uuid} id
@@ -50,6 +54,10 @@ export const updateUser = async (user, body) => {
 
 export const removeAllUsers = async () => {
   await User.deleteMany({});
+};
+
+export const removeUserById = async (id) => {
+  return await User.deleteOne({ _id: id });
 };
 
 /**
